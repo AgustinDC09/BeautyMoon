@@ -1,0 +1,146 @@
+{
+  "theme": "light",
+  "archetype": "1 (Organic & Earthy / Minimalist Luxury)",
+  "brand_name": "Beauty Moon",
+  "colors": {
+    "background": "#FFFFFF",
+    "surface": "#F9F8F6",
+    "surface_glass": "rgba(255, 255, 255, 0.85)",
+    "primary": "#0A0A0A",
+    "primary_foreground": "#FFFFFF",
+    "secondary": "#F0EAE6",
+    "secondary_foreground": "#1A1A1A",
+    "accent": "#C48B71",
+    "accent_subtle": "#E8D7D0",
+    "text_main": "#1A1A1A",
+    "text_muted": "#666666",
+    "border": "#EAEAEA",
+    "success": "#2D6A4F",
+    "error": "#9B2226"
+  },
+  "typography": {
+    "heading_font": "Playfair Display",
+    "body_font": "Outfit",
+    "rules": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-primary",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-primary",
+      "h3": "text-xl sm:text-2xl font-normal text-primary",
+      "h4": "text-lg sm:text-xl font-medium text-primary",
+      "body": "text-base text-text_main font-light leading-relaxed",
+      "body_small": "text-sm text-text_muted font-light",
+      "overline": "text-xs font-semibold uppercase tracking-[0.2em] text-text_muted"
+    }
+  },
+  "layout_and_spacing": {
+    "container_padding": "px-6 md:px-12 lg:px-24",
+    "section_gap": "py-24 md:py-32",
+    "grid_bento": "grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12",
+    "product_grid": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16",
+    "border_radius": {
+      "none": "rounded-none",
+      "sm": "rounded-sm",
+      "md": "rounded-md",
+      "full": "rounded-full"
+    },
+    "rules": [
+      "Use massive negative space. Allow product images to breathe without restricting borders.",
+      "Cardless design for product grids. Just the image, title, and price left-aligned underneath.",
+      "Forms (Checkout, Login, Admin) must use generous padding (p-8 to p-12) inside clean borders.",
+      "Use optical alignment for text and icons."
+    ]
+  },
+  "components": {
+    "navigation": {
+      "style": "sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-border transition-all",
+      "links": "text-sm uppercase tracking-widest font-medium hover:text-accent transition-colors"
+    },
+    "buttons": {
+      "primary": "bg-primary text-white hover:bg-black/80 rounded-none px-8 py-4 text-sm uppercase tracking-widest transition-all",
+      "secondary": "bg-transparent border border-primary text-primary hover:bg-surface rounded-none px-8 py-4 text-sm uppercase tracking-widest transition-all",
+      "ghost": "bg-transparent text-primary hover:text-accent px-4 py-2 text-sm transition-colors"
+    },
+    "inputs": {
+      "style": "bg-transparent border-b border-border rounded-none px-0 py-3 focus:outline-none focus:border-primary focus:ring-0 text-base w-full transition-colors",
+      "label": "text-xs uppercase tracking-widest text-text_muted mb-1 block"
+    },
+    "product_card": {
+      "wrapper": "group cursor-pointer flex flex-col gap-4",
+      "image_container": "relative aspect-[4/5] overflow-hidden bg-surface mb-2",
+      "image": "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105",
+      "title": "text-lg font-normal text-primary",
+      "price": "text-base font-medium text-text_muted"
+    },
+    "product_detail": {
+      "layout": "grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24",
+      "image_gallery": "sticky top-24 flex flex-col gap-4",
+      "content": "flex flex-col gap-8 pt-8 md:pt-0",
+      "accordions": "border-t border-border"
+    },
+    "seller_stand": {
+      "wrapper": "border border-border p-6 md:p-8 bg-surface/50 mt-12 flex items-center gap-6",
+      "avatar": "w-16 h-16 rounded-full object-cover grayscale",
+      "text": "flex-1"
+    }
+  },
+  "interactions": {
+    "hover": "Subtle opacity shifts or color changes. Avoid bouncing or excessive scaling. Elegance is key.",
+    "page_load": "Fade in with slight upward translation (framer-motion).",
+    "drawer": "Side cart should slide in smoothly from the right with a dark glassmorphic overlay on the main content."
+  },
+  "icons": {
+    "library": "lucide-react",
+    "style": "stroke-[1.5px] text-primary"
+  },
+  "image_urls": [
+    {
+      "url": "https://images.pexels.com/photos/2537930/pexels-photo-2537930.jpeg",
+      "category": "hero_banner",
+      "description": "Elegant monochrome flatlay showcasing a collection of beauty products. Use for the main homepage banner."
+    },
+    {
+      "url": "https://images.pexels.com/photos/9774655/pexels-photo-9774655.jpeg",
+      "category": "product_skincare",
+      "description": "Woman applying face cream. Use for skincare category or specific face product."
+    },
+    {
+      "url": "https://images.pexels.com/photos/29745247/pexels-photo-29745247.jpeg",
+      "category": "product_serum",
+      "description": "Close-up applying serum. Use for detailed product page."
+    },
+    {
+      "url": "https://images.pexels.com/photos/3785784/pexels-photo-3785784.jpeg",
+      "category": "product_perfume",
+      "description": "Sleek white perfume bottle. Use for Perfumery category."
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1615793685200-5802ff8bbea7",
+      "category": "product_makeup",
+      "description": "Makeup product. Use for Makeup category."
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1722247410696-31f0a93eb504",
+      "category": "seller_avatar",
+      "description": "Woman in white dress putting on lipstick. Use as placeholder for Seller's profile/stand avatar."
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1774682061055-3bfe402e5a12",
+      "category": "category_banner",
+      "description": "Clear glass perfume bottle. Use for category promotion."
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1625094640367-05f84293fe42",
+      "category": "promotions_banner",
+      "description": "Brown and black makeup palette. Use for 'Best Sellers' or promotions banner."
+    }
+  ],
+  "instructions_to_main_agent": [
+    "You are building 'Beauty Moon', a marketplace for independent Avon sellers. DO NOT mention L'Oréal or Avon directly in visible UI text unless as an imported brand, but the design MUST reflect their high-end, clean, minimalist aesthetic.",
+    "IMPORTANT: Apply 'data-testid' to ALL interactive elements (buttons, inputs, links, cart triggers).",
+    "Use Shadcn UI but heavily customize the styles to remove the generic 'SaaS/Vercel' look. Strip out aggressive border radiuses (use rounded-none or rounded-sm) and drop shadows.",
+    "For the Seller Panel and Admin Dashboard, maintain the minimalist aesthetic. Do not use generic colored admin themes. Keep it black and white with subtle grey borders.",
+    "Implement the side cart using a Drawer/Sheet component with a clean, uncrowded layout.",
+    "Product cards on the home page and grid must NOT have physical borders or cards. Let the image define the space.",
+    "Use Playfair Display for headings and Outfit for body text to create a high-contrast elegant typographic scale.",
+    "Use the provided image URLs exclusively. DO NOT use placeholder services like via.placeholder.com."
+  ]
+}
