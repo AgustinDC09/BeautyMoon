@@ -20,9 +20,7 @@ export default function Navegacion() {
           <Link to="/categoria/maquillaje" className="enlace-nav" data-testid="nav-maquillaje">Maquillaje</Link>
           <Link to="/categoria/rostro" className="enlace-nav" data-testid="nav-rostro">Rostro</Link>
           <Link to="/categoria/cuidado_corporal" className="enlace-nav" data-testid="nav-cuidado-corporal">Cuidado Corporal</Link>
-        </div>
-
-        <div style={{ display:'flex', alignItems:'center', gap:'18px' }}>
+        </div>        <div style={{ display:'flex', alignItems:'center', gap:'18px' }}>
           {usuario ? (
             <>
               <span style={{ fontSize:'0.75rem', letterSpacing:'0.12em', textTransform:'uppercase', color:'var(--texto-tenue)' }} data-testid="usuario-nombre">
@@ -57,13 +55,13 @@ export default function Navegacion() {
           )}
         </div>
       </div>
-      <div className="contenedor" style={{ display:'flex', gap:'24px', padding:'0 24px 16px', overflowX:'auto' }}>
+      <div className="contenedor nav-mobile-menu" style={{ display:'flex', gap:'24px', padding:'0 24px 16px', overflowX:'auto' }}>
         <Link to="/categoria/perfumeria" className="enlace-nav" data-testid="nav-mobile-perfumeria">Perfumería</Link>
         <Link to="/categoria/maquillaje" className="enlace-nav" data-testid="nav-mobile-maquillaje">Maquillaje</Link>
         <Link to="/categoria/rostro" className="enlace-nav" data-testid="nav-mobile-rostro">Rostro</Link>
         <Link to="/categoria/cuidado_corporal" className="enlace-nav" data-testid="nav-mobile-cuidado-corporal">Cuidado Corporal</Link>
       </div>
-      <style>{`@media (min-width: 1024px) { .nav-links { display: flex !important; } .contenedor > div:last-child { display: none; } }`}</style>
+      <style>{`@media (min-width: 1024px) { .nav-links { display: flex !important; } .nav-mobile-menu { display: none !important; } }`}</style>
     </nav>
   );
 }
