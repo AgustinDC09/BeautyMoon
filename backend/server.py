@@ -16,6 +16,16 @@ import jwt
 import bcrypt
 import logging
 import mercadopago
+import smtplib
+from email.mime.text import MIMEText
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
+from email.mime.multipart import MIMEMultipart
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -42,6 +52,13 @@ enrutador = APIRouter(prefix="/api")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ============ MODELOS ============
 class RegistroRequest(BaseModel):
@@ -178,29 +195,132 @@ async def registro(data: RegistroRequest):
 
 
 @enrutador.post("/auth/login")
-async def login(data: LoginRequest):
-    usuario = await db.usuarios.find_one({"email": data.email})
-    if not usuario or not verificar_password(data.password, usuario["password_hash"]):
-        raise HTTPException(status_code=401, detail="Credenciales inválidas")
+async def login(data: dict):
+    email = data.get("email")
+    password = data.get("password")
 
-    token = crear_token(usuario["id"], usuario["rol"])
-    return {
-        "token": token,
-        "usuario": {
-            "id": usuario["id"],
-            "email": usuario["email"],
-            "nombre": usuario["nombre"],
-            "rol": usuario["rol"],
-            "provincia": usuario.get("provincia", ""),
-            "ciudad": usuario.get("ciudad", "")
-        }
-    }
+    usuario = await db["usuarios"].find_one({"email": email})
+    if not usuario or usuario.get("password") != password:
+        return JSONResponse(
+            content={"detail": "Credenciales inválidas"},
+            status_code=401
+        )
+
+    return {"token": "demo-token-123", "usuario": {"email": email, "nombre": "Demo"}}
 
 
 @enrutador.get("/auth/yo")
 async def yo(usuario=Depends(obtener_usuario_actual)):
     return usuario
 
+
+# ============ RECUPERAR CONTRASEÑA ============
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    nueva_password: str
+
+
+def enviar_correo_reset(destinatario: str, token: str):
+    enlace = f"{os.environ['APP_URL']}/reset-password?token={token}"
+    cuerpo = f"""
+    Hola,
+    Has solicitado restablecer tu contraseña.
+    Haz clic en el siguiente enlace para continuar:
+
+    {enlace}
+
+    Este enlace expira en 30 minutos.
+    """
+    msg = MIMEText(cuerpo)
+    msg["Subject"] = "Recuperar contraseña - Beauty Moon"
+    msg["From"] = "no-reply@beautymoon.com"
+    msg["To"] = destinatario
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])
+        server.send_message(msg)
+
+@enrutador.post("/auth/forgot-password")
+async def forgot_password(data: dict):
+    tu_correo = data.get("email")  # usar el email que ingresa el usuario
+    token = "demo-token-123"  # token ficticio
+
+    enlace = f"http://localhost:3000/reset-password?token={token}"
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = "Recuperación de contraseña - BeautyMoon"
+    msg["From"] = "BeautyMoon <agustindiazcontreras4321@gmail.com>"
+    msg["To"] = tu_correo
+
+    texto = f"""
+Hola,
+
+Recibimos una solicitud para restablecer tu contraseña en BeautyMoon.
+Si fuiste vos, hacé clic en el siguiente enlace:
+
+{enlace}
+
+Si no solicitaste este cambio, podés ignorar este correo.
+
+Saludos,
+El equipo de BeautyMoon
+"""
+
+    html = f"""
+<html>
+  <body style="font-family: Arial, sans-serif; color: #333;">
+    <h2>Recuperación de contraseña</h2>
+    <p>Hola,</p>
+    <p>Recibimos una solicitud para restablecer tu contraseña en <strong>BeautyMoon</strong>.</p>
+    <p>Si fuiste vos, hacé clic en el siguiente enlace:</p>
+    <p><a href="{enlace}" style="background:#ff69b4; color:white; padding:10px 15px; text-decoration:none; border-radius:5px;">Restablecer contraseña</a></p>
+    <p>Si no solicitaste este cambio, simplemente ignorá este correo.</p>
+    <br>
+    <p>Saludos,<br>El equipo de BeautyMoon</p>
+  </body>
+</html>
+"""
+
+    msg.attach(MIMEText(texto, "plain"))
+    msg.attach(MIMEText(html, "html"))
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login("agustindiazcontreras4321@gmail.com", "pciy exxg pkmt qhdw")  # usar App Password de Gmail
+        server.send_message(msg)
+
+    return JSONResponse(
+        content={"detail": f"Se envió un enlace de recuperación a {tu_correo}"},
+        status_code=200
+    )
+
+@enrutador.post("/auth/reset-password")
+async def reset_password(data: dict):
+    token = data.get("token")
+    nueva_password = data.get("nueva_password")  # 👈 coincide con el frontend
+
+    if token != "demo-token-123":
+        return JSONResponse(
+            content={"detail": "Token inválido o expirado"},
+            status_code=400
+        )
+
+    usuario_email = "demo@correo.com"
+
+    # Guardar en el campo 'password'
+    await db["usuarios"].update_one(
+        {"email": usuario_email},
+        {"$set": {"password": nueva_password}}
+    )
+
+    return JSONResponse(
+        content={"detail": "Contraseña restablecida correctamente"},
+        status_code=200
+    )
 
 # ============ PRODUCTOS ============
 @enrutador.get("/productos")
@@ -697,15 +817,14 @@ async def sembrar_demo():
 # ============ APP ============
 app.include_router(enrutador)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
+
+
+app.include_router(enrutador)
 
 @app.on_event("shutdown")
 async def shutdown():
     cliente_mongo.close()
+
+
+

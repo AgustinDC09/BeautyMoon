@@ -110,3 +110,12 @@ def test_admin(s, tokens):
 
 def test_admin_requires_admin(s, tokens):
     r = s.get(f"{API}/admin/resumen", headers=H(tokens["cliente"])); assert r.status_code == 403
+
+def test_reset_password_flow(s):
+    email = f"test_{uuid.uuid4().hex[:8]}@test.com"
+    s.post(f"{API}/auth/registro", json={"email":email,"password":"pass123","nombre":"T","rol":"cliente"})
+    r = s.post(f"{API}/auth/forgot-password", json={"email":email})
+    assert r.status_code == 200
+    token = r.json().get("token")  # solo si devuelves el token en modo test
+    r2 = s.post(f"{API}/auth/reset-password", json={"token":token,"nueva_password":"nueva123"})
+    assert r2.status_code == 200

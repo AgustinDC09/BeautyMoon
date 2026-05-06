@@ -17,10 +17,13 @@ import PanelVendedor from './vistas/PanelVendedor';
 import PanelAdmin from './vistas/PanelAdmin';
 import StandPublico from './vistas/StandPublico';
 import PieDePagina from './componentes/PieDePagina';
-
-export const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+import Recuperar from './vistas/Recuperar';
+import ResetPassword from './vistas/ResetPassword';
+export const API = `${process.env.REACT_APP_BACKEND_URL}/api`; // sigue apuntando a Emergent
+export const API_LOCAL = `${process.env.REACT_APP_LOCAL_URL}/api`; // nuevo backend local
 export const ContextoApp = createContext(null);
 
+console.log("API URL:", API);
 function AppContenido() {
   const [usuario, setUsuario] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('bm_token') || null);
@@ -141,6 +144,8 @@ function AppContenido() {
           <Route path="/panel-vendedor" element={<PanelVendedor />} />
           <Route path="/panel-admin" element={<PanelAdmin />} />
           <Route path="/stand/:id" element={<StandPublico />} />
+          <Route path="/recuperar" element={<Recuperar />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </main>
       <PieDePagina />

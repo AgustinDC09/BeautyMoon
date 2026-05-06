@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { API, usarApp } from '../App';
+import { API_LOCAL, usarApp } from '../App';
 
 export default function Ingresar() {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ export default function Ingresar() {
     e.preventDefault();
     setCargando(true);
     try {
-      const res = await axios.post(`${API}/auth/login`, { email, password });
+      const res = await axios.post(`${API_LOCAL}/auth/login`, { email, password }); // 👈 usa API_LOCAL
       iniciarSesion(res.data.token, res.data.usuario);
       const rol = res.data.usuario.rol;
       if (rol === 'vendedor') navigate('/panel-vendedor');
@@ -49,11 +49,10 @@ export default function Ingresar() {
         <div style={{ marginTop: 32, textAlign:'center', fontSize:'0.85rem', color:'var(--texto-tenue)' }}>
           ¿No tenés cuenta? <Link to="/registro" style={{ color:'var(--primario)', fontWeight:500 }} data-testid="link-registro">Registrate</Link>
         </div>
-        <div style={{ marginTop: 24, padding: 16, background:'var(--superficie)', fontSize:'0.78rem', color:'var(--texto-tenue)', lineHeight:1.6 }}>
-          <strong style={{ color:'var(--primario)' }}>Usuarios demo:</strong><br/>
-          Cliente: cliente@beautymoon.com / cliente123<br/>
-          Vendedor: sofia@beautymoon.com / vendedor123<br/>
-          Admin: admin@beautymoon.com / admin123
+        <div style={{ marginTop: 16, textAlign:'center', fontSize:'0.85rem' }}>
+          <Link to="/recuperar" style={{ color:'var(--primario)', fontWeight:500 }}>
+            ¿Olvidaste tu contraseña?
+          </Link>
         </div>
       </div>
     </div>

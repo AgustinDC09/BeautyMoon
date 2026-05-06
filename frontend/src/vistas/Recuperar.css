@@ -1,0 +1,67 @@
+/* Recuperar.css */
+.recuperar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  background-color: #fff;
+  font-family: 'Playfair Display', serif;
+}
+
+.recuperar-box {
+  background-color: #fff;
+  color: #111;
+  padding: 48px;
+  border-radius: 16px;
+  border: 2px solid #000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.recuperar-box h1 {
+  font-size: 2rem;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.recuperar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recuperar-form input {
+  padding: 12px;
+  border: none;
+  border-bottom: 2px solid #000;
+  background: transparent;
+  color: #111;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.recuperar-form input:focus {
+  border-color: #555;
+}
+
+.recuperar-form button {
+  padding: 14px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.recuperar-form button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
+}
