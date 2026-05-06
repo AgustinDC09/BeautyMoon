@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { API_LOCAL, usarApp } from '../App';
+import { API, usarApp } from '../App';
 
 export default function Ingresar() {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ export default function Ingresar() {
     e.preventDefault();
     setCargando(true);
     try {
-      const res = await axios.post(`${API_LOCAL}/auth/login`, { email, password }); // 👈 usa API_LOCAL
+      const res = await axios.post(`${API}/auth/login`, { email, password });
       iniciarSesion(res.data.token, res.data.usuario);
       const rol = res.data.usuario.rol;
       if (rol === 'vendedor') navigate('/panel-vendedor');
